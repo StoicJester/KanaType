@@ -119,7 +119,7 @@ var charTables_useImages = function(){
 	);
 };
 
-var charTables_useUTF8 = function(){
+var charTables_useUTF = function(){
 	romajiTable = new Array(
 			new Array("a","あ","ア"),
 			new Array("i","い","イ"),

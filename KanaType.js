@@ -19,7 +19,7 @@
 
 var isHiragana = true;
 var userInput = "";//direct user input
-var playerkana = [];//list of kana input by the user
+var playerKana = [];//list of kana input by the user
 var playerword = [];//list of romanized kana input by the user
 var deleteRecord = [];//used with images if a digraph is used
 var currentLiteral = [];
@@ -69,7 +69,7 @@ var toKana = function (){
 	res = checkRomajiTable(userInput);
 	if(res != -1){
 		pushWord(userInput);
-		playerkana.push(romajiTable[res][kana]);
+		playerKana.push(romajiTable[res][kana]);
 		deleteRecord.push(1);
 		userInput = "";
 		return;
@@ -81,10 +81,10 @@ var toKana = function (){
 		playerword.push(userInput[0]);
 		playerword.push(userInput.substr(1));
 		if(di[0]!=(-1)){
-			playerkana.push(romajiTable[di[0]][kana]);
+			playerKana.push(romajiTable[di[0]][kana]);
 		}
 		if(di[1]!=(-1)){
-			playerkana.push(specialCharacters[di[1]][kana]);
+			playerKana.push(specialCharacters[di[1]][kana]);
 		}
 		deleteRecord.push(2);
 		userInput = "";
@@ -96,8 +96,8 @@ var toKana = function (){
 		if(res != -1){
 			pushWord(userInput[0]);
 			pushWord(userInput.substr(1));
-			playerkana.push(specialCharacters[8][kana]);
-			playerkana.push(romajiTable[res][kana]);
+			playerKana.push(specialCharacters[8][kana]);
+			playerKana.push(romajiTable[res][kana]);
 			deleteRecord.push(2);
 			userInput = "";
 			return;
@@ -107,12 +107,12 @@ var toKana = function (){
 			playerword.push(userInput[0]);
 			playerword.push(userInput[1]);
 			playerword.push(userInput.substr(2));
-			playerkana.push(specialCharacters[8][kana]);
+			playerKana.push(specialCharacters[8][kana]);
 			if(di[0]!=(-1)){
-				playerkana.push(romajiTable[di[0]][kana]);
+				playerKana.push(romajiTable[di[0]][kana]);
 			}
 			if(di[1]!=(-1)){
-				playerkana.push(specialCharacters[di[1]][kana]);
+				playerKana.push(specialCharacters[di[1]][kana]);
 			}
 			deleteRecord.push(3);
 			userInput = "";
@@ -125,8 +125,8 @@ var toKana = function (){
 		if(res != -1){
 			pushWord("nn");
 			pushWord(userInput.substr(1));
-			playerkana.push(romajiTable[49][kana]);
-			playerkana.push(romajiTable[res][1]);
+			playerKana.push(romajiTable[49][kana]);
+			playerKana.push(romajiTable[res][1]);
 			deleteRecord.push(1);
 			deleteRecord.push(1);
 			userInput = "";
@@ -137,12 +137,12 @@ var toKana = function (){
 			pushWord("nn");
 			playerword.push(userInput[1]);
 			playerword.push(userInput.substr(2));
-			playerkana.push(romajiTable[49][kana]);
+			playerKana.push(romajiTable[49][kana]);
 			if(di[0]!=(-1)){
-				playerkana.push(romajiTable[di[0]][kana]);
+				playerKana.push(romajiTable[di[0]][kana]);
 			}
 			if(di[1]!=(-1)){
-				playerkana.push(specialCharacters[di[1]][kana]);
+				playerKana.push(specialCharacters[di[1]][kana]);
 			}
 			deleteRecord.push(1);
 			deleteRecord.push(2);
