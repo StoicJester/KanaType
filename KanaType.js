@@ -22,7 +22,7 @@ var userInput = "";//direct user input
 var playerKana = [];//list of kana input by the user
 var playerword = [];//list of romanized kana input by the user
 var deleteRecord = [];//used with images if a digraph is used
-var currentLiteral = [];
+var currentLiteral = [];//?
 
 var isVowel = function (lettercode) {
 	switch(lettercode){
@@ -41,16 +41,17 @@ var isVowel = function (lettercode) {
 };
 
 var isVowelCharacter = function (letter) {
+	letter = letter.toLowerCase();
 	switch(letter){
-	case 97:
+	case 'a':
 		return true;
-	case 101:
+	case 'e':
 		return true;
-	case 105:
+	case 'i':
 		return true;
-	case 111:
+	case 'o':
 		return true;
-	case 117:
+	case 'u':
 		return true;
 	}
 	return false;
@@ -59,7 +60,7 @@ var isVowelCharacter = function (letter) {
 var toKana = function (){
 	isDigraph = false;
 	var kana, res, di;
-	checkStr();
+	userInput = checkStr(userInput);
 	if(isHiragana){
 		kana = 1;
 	}else {
@@ -79,7 +80,7 @@ var toKana = function (){
 	if(testDi(di)){
 		isDigraph = true;
 		playerword.push(userInput[0]);
-		playerword.push(userInput.substr(1));
+		playerword.push(checkStr(userInput.substr(1)));
 		if(di[0]!=(-1)){
 			playerKana.push(romajiTable[di[0]][kana]);
 		}
@@ -93,9 +94,10 @@ var toKana = function (){
 	//case double consonant
 	if(userInput[0]==userInput[1]){
 		res = checkRomajiTable(userInput.substr(1))
+		var second = checkStr(userInput.substr(1));
 		if(res != -1){
 			pushWord(userInput[0]);
-			pushWord(userInput.substr(1));
+			pushWord(second);
 			playerKana.push(specialCharacters[8][kana]);
 			playerKana.push(romajiTable[res][kana]);
 			deleteRecord.push(2);
@@ -106,7 +108,7 @@ var toKana = function (){
 		if(testDi(di)){
 			playerword.push(userInput[0]);
 			playerword.push(userInput[1]);
-			playerword.push(userInput.substr(2));
+			playerword.push(checkStr(userInput.substr(2)));
 			playerKana.push(specialCharacters[8][kana]);
 			if(di[0]!=(-1)){
 				playerKana.push(romajiTable[di[0]][kana]);
@@ -124,7 +126,7 @@ var toKana = function (){
 		res = checkRomajiTable(userInput.substr(1));
 		if(res != -1){
 			pushWord("nn");
-			pushWord(userInput.substr(1));
+			pushWord(checkStr(userInput.substr(1)));
 			playerKana.push(romajiTable[49][kana]);
 			playerKana.push(romajiTable[res][1]);
 			deleteRecord.push(1);
@@ -132,11 +134,11 @@ var toKana = function (){
 			userInput = "";
 			return;
 		}
-		di = parseDiagraph(userInput.substr(1));
+		di = parseDiagraph(checkStr(userInput.substr(1)));
 		if(testDi(di)){
 			pushWord("nn");
 			playerword.push(userInput[1]);
-			playerword.push(userInput.substr(2));
+			playerword.push(checkStr(userInput.substr(2)));
 			playerKana.push(romajiTable[49][kana]);
 			if(di[0]!=(-1)){
 				playerKana.push(romajiTable[di[0]][kana]);
@@ -257,24 +259,25 @@ var parseDiagraph = function (x){
 	return res;
 };
 
-var checkStr = function (){
-	switch(userInput){
+var checkStr = function (input){
+	switch(input){
 		case "si":
-			userInput = "shi";
+			input = "shi";
 			break;
 		case "ti":
-			userInput = "chi";
+			input = "chi";
 			break;
 		case "tu":
-			userInput = "tsu";
+			input = "tsu";
 			break;
 		case "hu":
-			userInput = "fu";
+			input = "fu";
 			break;
 		case "zi":
-			userInput = "ji";
+			input = "ji";
 			break;
 	}
+	return input;
 };
 
 var testDi = function (di){
