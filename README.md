@@ -22,14 +22,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Description:
 
 A JavaScript/jQuery program for converting QWERTY keyboard input into Japanese characters.
+
 Commenting has fallen behind, next update should be filled to the brim with commenting.
+
 
 Requirements:
 
 Requires jQuery for communication with the DOM.  
    If you don't want to include jQuery, you can modify anywhere there is a '$' to instead do normal javascript.
 
-   
+  
+  
 Usage:
 
 variable = new KanaType( [settings] );
@@ -37,20 +40,20 @@ variable = new KanaType( [settings] );
 settings
    Type: Object
    A set of key/value pairs that configure the KanaType object. All settings are optional.
-   
-   input(default: <code>document</code>)
+   <ul>
+   <li>input(default: <code>document</code>)
    Type: String
-   The DOM element to take keypress and keydown events from.
+   The DOM element to take keypress and keydown events from.</li>
    
-   onSetup
+   <li>onSetup
    Type: Function()
-   A callback function to run before the KanaType object has any changes applied from the 'settings' argument.
+   A callback function to run before the KanaType object has any changes applied from the 'settings' argument.</li>
    
-   onRun
+   <li>onRun
    Type: Function()
-   A callback function to run before the KanaType object begings watching keydown/keypress events.
+   A callback function to run before the KanaType object begings watching keydown/keypress events.</li>
    
-   keyCatch(defalut: 
+   <li>keyCatch(defalut: 
       <code>function(event){
          if(event.which==47){ // '/'
             this.supressEvent(event);
@@ -61,14 +64,16 @@ settings
    Type: Function(keyevent event)
    A callback function that is called after every keydown/keypress event but before the event is passed into the function for parsing events into kana.
    Returning true from this function will prevent the event from being passed into the parsing function.
-   Calling <code>this.supressEvent(event)</code> will prevent the default browser level event related to that keypress/keydown.  For example, surpressing the 'backspace' event will prevent Chrome or Firefox from going back a page.
+   Calling <code>this.supressEvent(event)</code> will prevent the default browser level event related to that keypress/keydown.  For example, surpressing the 'backspace' event will prevent Chrome or Firefox from going back a page.</li>
    
-   printOut
+   <li>printOut
    Type: Function(Array kanaArray, String userInput, Array romajiArray)
    A callback function that is called after every key event that enters the parsing stage, i.e. not stopped by <code>keyCatch</code> function.
    <code>kanaArray</code> is an array of kana characters parsed from user input.
    <code>userInput</code> is a String containing the current user input that has not formed a complete kana syllable.
-   <code>romajiArray</code> is an array containing a nearly 1-to-1 match of romaji input for the output kana.
+   <code>romajiArray</code> is an array containing a nearly 1-to-1 match of romaji input for the output kana.</li>
+</ul>
+
 
 
 Accessable Methods:
@@ -77,11 +82,13 @@ Type: Function()
 Changes the type of kana output between hiragana and katakana.
 
 
+
+
 Example:
 An example_site file should have been included with the download of KanaType
 It should contain a very basic sample site that shows the functionality of KanaType.
-'''
-<script type="text/javascript" >
+
+</code><script type="text/javascript" >
 $("document").ready(function(){
 
 $("#inpt").focus();
@@ -108,8 +115,7 @@ kt = new KanaType({
 });
 
 });
-</script>
-'''
+</script></code>
 
 
 
