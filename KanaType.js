@@ -19,6 +19,10 @@
 	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+/**
+* Kanatype Object
+*	Takes a hash of settings to apply before init
+*/
 var KanaType = function(objSettings){
 	this.objSettings = objSettings;
 	//input element
@@ -42,9 +46,24 @@ var KanaType = function(objSettings){
 	this.run();
 }
 
-//Modifiable Functions
+/**************************************************
+* Modifiable Functions
+*	functions that are ok to modify;
+*	pass new functions in when initializing KanaType object
+*/
+/**
+* Function that deals with what to do before initial settings are applied
+*/
 KanaType.prototype.onSetup = function(){};
+/**
+* Function that deals with what to do before running key catches
+*/
 KanaType.prototype.onRun = function(){};
+/**
+* Function that deals with what to do when a key is caught
+*	receives keypress event
+*	returning true stops the event from being passed forward
+*/
 KanaType.prototype.keyCatch = function(event){
 	if(event.which==47){ // '/'
 		this.supressEvent(event);
@@ -52,13 +71,27 @@ KanaType.prototype.keyCatch = function(event){
 		return true;
 	}
 };
+/**
+* Function that deals with what to do with output
+*	function receives array of kana characters, 
+*	 a String of the user input since the last conversion,
+*	 and an array of user input converted to standard romaji (e.g. zi becomes ji)
+*/
 KanaType.prototype.printOut = function(kanaArray, userInput, romajiArray){};
 
-//Not to be modified
+/**************************************************
+* Functions from here on should not be modified
+*/
+/**
+* Function for switching output from hiragana to katakana and vis a vis
+*/
 KanaType.prototype.switchKana = function(){
 	var t = this;
 	t.isHiragana = !t.isHiragana;
 };
+/**
+* Function for applying developer input settings
+*/
 KanaType.prototype.setup = function(){
 	var t = this;
 	t.onSetup();
@@ -68,6 +101,9 @@ KanaType.prototype.setup = function(){
 		}
 	}
 };
+/**
+* Function that applies the event listeners
+*/
 KanaType.prototype.run = function(){
 	var t = this;
 	t.setup();
@@ -78,19 +114,23 @@ KanaType.prototype.run = function(){
 			t.checkKeys(event);
 		}
 	});
-	$(t.input).keydown(function(event) {
+	$(t.input).keydown(function(event) {//needed for FF backspace
 		// console.log("down: "+event.charCode);
 		if((event.charCode != 0)||(event.which == 8)){
 			t.checkKeys(event);
 		}
 	});
 };
+/**
+* Function called when a key is pressed, or down for FF
+*/
 KanaType.prototype.checkKeys = function(event){
 	var t = this;
 	if(!t.keyCatch(event)){
 		t.parse(event);
 	}
 };
+
 KanaType.prototype.parse = function(event){
 	var t = this;
 	if(event.which==8){ //backspace
@@ -133,9 +173,10 @@ KanaType.prototype.convert = function(input){
 	if(t.checkKanaNPlus(input)){ return true; }
 	return false;
 }
-KanaType.prototype.checkSpecialInput = function (input){
+KanaType.prototype.checkSpecialInput = function (inp){
 	var t = this;
-	switch(input){
+	var input = inp;
+	switch(inp){
 		case "si":
 			input = "shi";
 			break;
@@ -148,8 +189,8 @@ KanaType.prototype.checkSpecialInput = function (input){
 		case "hu":
 			input = "fu";
 			break;
-		case "zi":
-			input = "ji";
+		case "ji":
+			input = "zi";
 			break;
 		case "ja":
 			input = "jya";
@@ -206,7 +247,7 @@ KanaType.prototype.checkKanaRegular = function(input){
 	var location = t.checkRomajiTable(input);
 	if(location != (-1)){
 		t.romajiArray.push(input);
-		t.kanaArray.push(t.romajiTable[location][kana]);
+		t.kanaArray.push(intToKana(t.romajiTable[location][kana]));
 		t.deleteRecord.push(1);
 		t.userInput = "";
 		return true; 
@@ -225,7 +266,7 @@ KanaType.prototype.checkKanaSmall = function(input){
 	var location = t.checkSmallCharactersTable(chRest);
 	if(location != (-1)){
 		t.romajiArray.push(chRest);
-		t.kanaArray.push(t.smallCharacters[location][kana]);
+		t.kanaArray.push(intToKana(t.smallCharacters[location][kana]));
 		t.deleteRecord.push(1);
 		t.userInput = "";
 		return true; 
@@ -240,8 +281,8 @@ KanaType.prototype.checkKanaDiagraph = function(input){
 	if((locations[0] == -1)||(locations[1] == -1)){ return false; }
 	t.romajiArray.push(input[0]);
 	t.romajiArray.push(input.substr(1));
-	t.kanaArray.push(t.romajiTable[locations[0]][kana]);
-	t.kanaArray.push(t.smallCharacters[locations[1]][kana]);
+	t.kanaArray.push(intToKana(t.romajiTable[locations[0]][kana]));
+	t.kanaArray.push(intToKana(t.smallCharacters[locations[1]][kana]));
 	t.deleteRecord.push(2);
 	t.userInput = "";
 	return true;
@@ -287,7 +328,7 @@ KanaType.prototype.checkKanaDoubleConsonant = function(input){
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(t.smallCharacters[8][kana]);
+		t.kanaArray.push(intToKana(t.smallCharacters[8][kana]));
 		t.kanaArray.push(hold);
 		
 		t.deleteRecord.pop();
@@ -304,7 +345,7 @@ KanaType.prototype.checkKanaDoubleConsonant = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(t.smallCharacters[8][kana]);
+		t.kanaArray.push(intToKana(t.smallCharacters[8][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
@@ -328,7 +369,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(t.romajiTable[49][kana]);
+		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
 		t.kanaArray.push(hold);
 		
 		t.deleteRecord.pop();
@@ -345,7 +386,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(t.romajiTable[49][kana]);
+		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
@@ -376,95 +417,94 @@ KanaType.prototype.supressEvent = function(e){
 KanaType.prototype.charTables_useUTF = function(){
 	var t = this;
 	t.romajiTable = new Array(
-			new Array("a","あ","ア"),
-			new Array("i","い","イ"),
-			new Array("u","う","ウ"),
-			new Array("e","え","エ"),
-			new Array("o","お","オ"),
-			new Array("ka","か","カ"),
-			new Array("ki","き","キ"),
-			new Array("ku","く","ク"),
-			new Array("ke","け","ケ"),
-			new Array("ko","こ","コ"),
-			new Array("sa","さ","サ"),
-			new Array("shi","し","シ"),//+
-			new Array("si","し","シ"),//+
-			new Array("su","す","ス"),
-			new Array("se","せ","セ"),
-			new Array("so","そ","ソ"),
-			new Array("ta","た","タ"),
-			new Array("ti","ち","チ"),//+
-			new Array("chi","ち","チ"),//+
-			new Array("tu","つ","ツ"),//+
-			new Array("tsu","つ","ツ"),//+
-			new Array("te","て","テ"),
-			new Array("to","と","ト"),
-			new Array("na","な","ナ"),
-			new Array("ni","に","ニ"),
-			new Array("nu","ぬ","ヌ"),
-			new Array("ne","ね","ネ"),
-			new Array("no","の","ノ"),
-			new Array("ha","は","ハ"),
-			new Array("hi","ひ","ヒ"),
-			new Array("hu","ふ","フ"),//+
-			new Array("fu","ふ","フ"),//+
-			new Array("he","へ","ヘ"),
-			new Array("ho","ほ","ホ"),
-			new Array("ma","ま","マ"),
-			new Array("mi","み","ミ"),
-			new Array("mu","む","ム"),
-			new Array("me","め","メ"),
-			new Array("mo","も","モ"),
-			new Array("ya","や","ヤ"),
-			new Array("yu","ゆ","ユ"),
-			new Array("yo","よ","ヨ"),
-			new Array("ra","ら","ラ"),
-			new Array("ri","り","リ"),
-			new Array("ru","る","ル"),
-			new Array("re","れ","レ"),
-			new Array("ro","ろ","ロ"),
-			new Array("wa","わ","ワ"),
-			new Array("wo","を","ヲ"),
-			new Array("nn","ん","ン"),
-			new Array("ga","が","ガ"),
-			new Array("gi","ぎ","ギ"),
-			new Array("gu","ぐ","グ"),
-			new Array("ge","げ","ゲ"),
-			new Array("go","ご","ゴ"),
-			new Array("da","だ","ダ"),
-			new Array("di","ぢ","ヂ"),
-			new Array("du","づ","ヅ"),
-			new Array("de","で","デ"),
-			new Array("do","ど","ド"),
-			new Array("za","ざ","ザ"),
-			new Array("ji","じ","ジ"),//+
-			new Array("zi","じ","ジ"),//+
-			new Array("zu","ず","ズ"),
-			new Array("ze","ぜ","ゼ"),
-			new Array("zo","ぞ","ゾ"),
-			new Array("ba","ば","バ"),
-			new Array("bi","び","ビ"),
-			new Array("bu","ぶ","ブ"),
-			new Array("be","べ","ベ"),
-			new Array("bo","ぼ","ボ"),
-			new Array("pa","ぱ","パ"),
-			new Array("pi","ぴ","ピ"),
-			new Array("pu","ぷ","プ"),
-			new Array("pe","ぺ","ペ"),
-			new Array("po","ぽ","ポ"),
-			new Array("-","ー","ー"),
-			new Array("vu","ヴ","ヴ")
+		new Array("a",12354,12450), 
+		new Array("i",12356,12452), 
+		new Array("u",12358,12454), 
+		new Array("e",12360,12456), 
+		new Array("o",12362,12458), 
+		new Array("ka",12363,12459), 
+		new Array("ki",12365,12461), 
+		new Array("ku",12367,12463), 
+		new Array("ke",12369,12465), 
+		new Array("ko",12371,12467), 
+		new Array("ga",12364,12460), 
+		new Array("gi",12366,12462), 
+		new Array("gu",12368,12464), 
+		new Array("ge",12370,12466), 
+		new Array("go",12372,12468), 
+		new Array("sa",12373,12469), 
+		new Array("si",12375,12471), 
+		new Array("su",12377,12473), 
+		new Array("se",12379,12475), 
+		new Array("so",12381,12477), 
+		new Array("za",12374,12470), 
+		new Array("zi",12376,12472), 
+		new Array("zu",12378,12474), 
+		new Array("ze",12380,12476), 
+		new Array("zo",12382,12478), 
+		new Array("ta",12383,12479), 
+		new Array("chi",12385,12481), 
+		new Array("tsu",12388,12484), 
+		new Array("te",12390,12486), 
+		new Array("to",12392,12488), 
+		new Array("da",12384,12480), 
+		new Array("di",12386,12482), 
+		new Array("du",12389,12485), 
+		new Array("de",12391,12487), 
+		new Array("do",12393,12489), 
+		new Array("na",12394,12490), 
+		new Array("ni",12395,12491), 
+		new Array("nu",12396,12492), 
+		new Array("ne",12397,12493), 
+		new Array("no",12398,12494), 
+		new Array("ha",12399,12495), 
+		new Array("hi",12402,12498), 
+		new Array("hu",12405,12501), 
+		new Array("he",12408,12504), 
+		new Array("ho",12411,12507), 
+		new Array("ba",12400,12496), 
+		new Array("bi",12403,12499), 
+		new Array("bu",12406,12502), 
+		new Array("be",12409,12505), 
+		new Array("bo",12412,12508), 
+		new Array("pa",12401,12497), 
+		new Array("pi",12404,12500), 
+		new Array("pu",12407,12503), 
+		new Array("pe",12410,12506), 
+		new Array("po",12413,12509), 
+		new Array("ma",12414,12510), 
+		new Array("mi",12415,12511), 
+		new Array("mu",12416,12512), 
+		new Array("me",12417,12513), 
+		new Array("mo",12418,12514), 
+		new Array("ya",12420,12516), 
+		new Array("yi",12421,12517), 
+		new Array("yu",12422,12518), 
+		new Array("ye",12423,12519), 
+		new Array("yo",12424,12520), 
+		new Array("ra",12425,12521), 
+		new Array("ru",12427,12523), 
+		new Array("ro",12429,12525), 
+		new Array("wa",12431,12527), 
+		new Array("wo",12434,12530), 
+		new Array("nn",12435,12531), 
+		new Array("-",12541,12540),
+		new Array("vu",12436,12532)
 	);
-		
+
 	t.smallCharacters = new Array(// small characters
-		new Array("ya","ゃ","ャ"),
-		new Array("yu","ゅ","ュ"),
-		new Array("yo","ょ","ョ"),
-		new Array("a","ぁ","ァ"),
-		new Array("i","ぃ","ィ"),
-		new Array("u","ぅ","ゥ"),
-		new Array("e","ぇ","ェ"),
-		new Array("o","ぉ","ォ"),
-		new Array("tsu","っ","ッ")
+		new Array("ya",12419,12515),
+		new Array("yu",12421,12517),
+		new Array("yo",12423,125159),
+		new Array("a",12353,12449),
+		new Array("i",12355,12451),
+		new Array("u",12357,12453),
+		new Array("e",12359,12455),
+		new Array("o",12361,12457),
+		new Array("tsu",12387,12483)
 	);
 };
+
+function intToKana(val){
+	return String.fromCharCode(val);
+}
