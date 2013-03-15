@@ -57,7 +57,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             this.switchKana();
             return true;
          }
-      };```
+      };
+	  ```
 	  )
 <br/>   Type: Function(keyevent event)
 <br/>   A callback function that is called after every keydown/keypress event but before the event is passed into the function for parsing events into kana.
