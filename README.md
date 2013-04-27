@@ -13,6 +13,7 @@ Requires jQuery for communication with the DOM.
 `variable = new KanaType( [settings] );`
 ###settings
 Type: Object
+
 A set of key/value pairs that configure the KanaType object. All settings are optional.
 
 ###Available Settings
@@ -25,10 +26,12 @@ The DOM element to take keypress and keydown events from.
    
 ####onSetup
 Type: Function()
+
 A callback function to run before the KanaType object has any changes applied from the 'settings' argument.
 
 ####onRun
 Type: Function()
+
 A callback function to run before the KanaType object begings watching keydown/keypress events.
 
 ####keyCatch
@@ -43,12 +46,14 @@ function(event){
 };
 ```
 Type: Function(keyevent event)
+
 A callback function that is called after every keydown/keypress event but before the event is passed into the function for parsing events into kana.
 Returning true from this function will prevent the event from being passed into the parsing function.
 Calling `this.supressEvent(event)` will prevent the default browser level event related to that keypress/keydown.  For example, surpressing the 'backspace' event will prevent Chrome or Firefox from going back a page.
    
 ####printOut
 Type: Function(Array kanaArray, String userInput, Array romajiArray)
+
 A callback function that is called after every key event that enters the parsing stage, i.e. not stopped by `keyCatch` function.
 `kanaArray` is an array of kana characters parsed from user input.
 `userInput` is a String containing the current user input that has not formed a complete kana syllable.
@@ -59,10 +64,11 @@ A callback function that is called after every key event that enters the parsing
 
 ####switchKana
 Type: Function()
+
 Changes the type of kana output between hiragana and katakana.
 
 
-Example:
+##Example:
 An example_site file should have been included with the download of KanaType
 It should contain a very basic sample site that shows the functionality of KanaType
 
@@ -106,5 +112,6 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
+---
 
 Questions, comments, suggestions, and requests can be directed to bcrucitti(at)gmail.com
