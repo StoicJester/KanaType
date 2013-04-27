@@ -50,6 +50,7 @@ A callback function that is called after every key event that enters the parsing
 
 
 ##Accessable Methods:
+
 ####switchKana
 Type: Function()
 Changes the type of kana output between hiragana and katakana.
