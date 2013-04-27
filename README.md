@@ -11,11 +11,15 @@ Requires jQuery for communication with the DOM.
 ##Usage:
 
 `variable = new KanaType( [settings] );`
-####settings
+###settings
 Type: Object
 A set of key/value pairs that configure the KanaType object. All settings are optional.
+
+###Available Settings
+
+---
    
-input(default: <code>document</code>)
+####input(default: <code>document</code>)
 Type: String
 The DOM element to take keypress and keydown events from.
    
