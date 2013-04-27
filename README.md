@@ -7,6 +7,9 @@ A JavaScript/jQuery program for converting QWERTY keyboard input into Japanese c
 Requires jQuery for communication with the DOM.  
     If you don't want to include jQuery, you can modify anywhere there is a '$' to instead do normal javascript.
 
+HTML Documents require a meta tag in the header specifying UTF-8 charset
+
+`<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />`
    
 ##Usage:
 

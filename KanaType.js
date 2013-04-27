@@ -81,13 +81,12 @@ KanaType.prototype.printOut = function(kanaArray, userInput, romajiArray){};
 
 /**************************************************
 * Functions from here on should not be modified
-* ...Unless you really want to. Don't blame me for the results though
 */
 /**
 * Function for switching output from hiragana to katakana and vis a vis
 */
 KanaType.prototype.switchKana = function(){
-	var t = this; //a habit of mine to maintain scope on 'this' in the function
+	var t = this;
 	t.isHiragana = !t.isHiragana;
 };
 /**
@@ -131,14 +130,12 @@ KanaType.prototype.checkKeys = function(event){
 		t.parse(event);
 	}
 };
-/**
-* Function which determines how input is handled and delegates work
-*/
+
 KanaType.prototype.parse = function(event){
 	var t = this;
 	if(event.which==8){ //backspace
 		t.supressEvent(event);
-		if(t.userInput.length == 0){ //if there is only kana, no new user input since last conversion
+		if(t.userInput.length == 0){
 			var bks = t.deleteRecord.pop();
 			for(var i=0;i<bks;i++){
 				if(t.romajiArray.length>0){
@@ -147,28 +144,25 @@ KanaType.prototype.parse = function(event){
 				}
 			}			
 		}
-		else{ //erase new input rather than converted characters
+		else{
 			t.userInput = t.userInput.substring(0,t.userInput.length-1);
 		}
 		
 	}else{
-		t.supressEvent(event);
+		t.supressEvent(event)
 		
-		var letter = String.fromCharCode(event.charCode); //get the letter from the charCode
-		if(t.patternAccept.test(letter)){ //check to see if it is a letter we accept
-			t.userInput += letter; //add it to the user input string
-			if(t.patternVowel.test(letter) || t.patternSpecial.test(t.userInput)){ //check to see if the letter is a vowel or a special character we will accept
-				t.convert(t.userInput); //attempt to convert it to kana
+		var letter = String.fromCharCode(event.charCode);
+		if(t.patternAccept.test(letter)){
+			t.userInput += letter;
+			if(t.patternVowel.test(letter) || t.patternSpecial.test(t.userInput)){
+				t.convert(t.userInput);
 			}
 		}
 	}
-	t.printOut(t.kanaArray, t.userInput, t.romajiArray); //call the printOut function
+	t.printOut(t.kanaArray, t.userInput, t.romajiArray);
 };
 
-//Parsing Functions**********************************************************
-/**
-* Function to check user input against various cases of potential kana input
-*/
+//Parse------------------------------------------------------------
 KanaType.prototype.convert = function(input){
 	var t = this;
 	input = t.checkSpecialInput(input);
@@ -179,9 +173,6 @@ KanaType.prototype.convert = function(input){
 	if(t.checkKanaNPlus(input)){ return true; }
 	return false;
 }
-/**
-* Function to convert common shorthand romaji spellings into full spellings
-*/
 KanaType.prototype.checkSpecialInput = function (inp){
 	var t = this;
 	var input = inp;
@@ -199,7 +190,7 @@ KanaType.prototype.checkSpecialInput = function (inp){
 			input = "fu";
 			break;
 		case "ji":
-			input = "zi";
+			input = "ji";
 			break;
 		case "ja":
 			input = "jya";
@@ -231,9 +222,6 @@ KanaType.prototype.checkSpecialInput = function (inp){
 	}
 	return input;
 };
-/**
-* Function to find the user input in the basic kana set
-*/
 KanaType.prototype.checkRomajiTable = function (input){
 	var t = this;
 	for(var i=0;i<t.romajiTable.length;i++){
@@ -243,9 +231,6 @@ KanaType.prototype.checkRomajiTable = function (input){
 	}
 	return -1;
 };
-/**
-* Function to find the user input in the set of small kana
-*/
 KanaType.prototype.checkSmallCharactersTable = function(input){
 	var t = this;
 	for(var i=0;i<t.smallCharacters.length;i++){
@@ -255,9 +240,6 @@ KanaType.prototype.checkSmallCharactersTable = function(input){
 	}
 	return -1;
 };
-/**
-* Function to push the correct kana into the kanaArray, assuming it is in the set of normal kana
-*/
 KanaType.prototype.checkKanaRegular = function(input){
 	var t = this;
 	var kana = (t.isHiragana)? 1 : 2;
@@ -272,9 +254,6 @@ KanaType.prototype.checkKanaRegular = function(input){
 	}
 	return false;
 };
-/**
-* Function to push the correct kana into the kanaArray, assuming it is in the set of small kana
-*/
 KanaType.prototype.checkKanaSmall = function(input){
 	var t = this;
 	var kana = (t.isHiragana)? 1 : 2;
@@ -294,11 +273,6 @@ KanaType.prototype.checkKanaSmall = function(input){
 	}
 	return false;
 };
-/**
-* Function to push the correct kana into the kanaArray, assuming it is input that converts to a digraph
-* Note: A digraph is when you have two characters that make up one sound. For example, 'Jyo' or 'Jo' is made up of
-*  a 'Ji' and a small 'Yo'character. Two characters, one sound.
-*/
 KanaType.prototype.checkKanaDiagraph = function(input){
 	var t = this;
 	var kana = (t.isHiragana)? 1 : 2;
@@ -313,9 +287,6 @@ KanaType.prototype.checkKanaDiagraph = function(input){
 	t.userInput = "";
 	return true;
 };
-/**
-* Function to parse a digraph into its component parts
-*/
 KanaType.prototype.parseDiagraph = function (input){
 	var t = this;
 	var locations = new Array(-1,-1);
@@ -331,7 +302,7 @@ KanaType.prototype.parseDiagraph = function (input){
 	}
 	
 	// Contains small ya/yu/yo
-	var y = input.indexOf("y"); //get the location of a 'y' character in the input
+	var y = input.indexOf("y");
 	if(y!=(-1)){
 		ch0 = input.substr(0,y)+"i";
 		rest = input.slice(y);
@@ -342,29 +313,25 @@ KanaType.prototype.parseDiagraph = function (input){
 	}
 	return locations;
 };
-/**
-* Function to push the correct kana into the kanaArray, assuming the input starts with a double consonant
-*/
 KanaType.prototype.checkKanaDoubleConsonant = function(input){
 	var t = this;
 	var kana = (t.isHiragana)? 1 : 2;
 	
-	if(input[0]!=input[1]){ return false; } //check to see if the first two characters are the same
+	if(input[0]!=input[1]){ return false; }
 	
 	var hold, hold2;
 	var firstC = input[0];
-	var newInput = t.checkSpecialInput(input.substr(1)); //check to see if the second part of the input is romaji shorthand
-	//What follows is similar to the 'convert' function, but accounts for the double consonant situation
+	var newInput = t.checkSpecialInput(input.substr(1));
 	if(t.checkKanaRegular(newInput)){
 		hold = t.romajiArray.pop();
 		t.romajiArray.push(firstC);
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.smallCharacters[8][kana])); //push a small 'tsu'character
+		t.kanaArray.push(intToKana(t.smallCharacters[8][kana]));
 		t.kanaArray.push(hold);
 		
-		t.deleteRecord.pop(); //remove the normal delete record and replace it with a double delete situation
+		t.deleteRecord.pop();
 		t.deleteRecord.push(2);
 		
 		return true;
@@ -378,21 +345,16 @@ KanaType.prototype.checkKanaDoubleConsonant = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.smallCharacters[8][kana])); //push a small 'tsu'character
+		t.kanaArray.push(intToKana(t.smallCharacters[8][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
-		t.deleteRecord.pop(); //remove the normal delete record and replace it with a triple delete situation
+		t.deleteRecord.pop();
 		t.deleteRecord.push(3);
 		
 		return true;
 	}
 }
-/**
-* Function to push the correct kana into the kanaArray, assuming the input starts with the character 'n' and than has more
-* This function deals with the cases where a user will type "n[next character]", with the assumption that typing 'n' is enough
-*  to convert to the appropriate kana, which it is.
-*/
 KanaType.prototype.checkKanaNPlus = function(input){
 	var t = this;
 	var kana = (t.isHiragana)? 1 : 2;
@@ -400,8 +362,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 	if(input[0]!="n"){ return false; }
 	
 	var firstC = "nn";
-	var newInput = t.checkSpecialInput(input.substr(1)); //check to see if the second part of the input is romaji shorthand
-	//What follows is similar to the 'convert' function, but accounts for this specific situation
+	var newInput = t.checkSpecialInput(input.substr(1));
 	if(t.checkKanaRegular(newInput)){
 		hold = t.romajiArray.pop();
 		t.romajiArray.push(firstC);
@@ -437,9 +398,6 @@ KanaType.prototype.checkKanaNPlus = function(input){
 }
 
 //Other---------------------------------------------------------
-/**
-* Function to prevent events from bubbling up to the browser
-*/
 KanaType.prototype.supressEvent = function(e){
 	var flag = false;
 	if (e.preventDefault){
@@ -456,12 +414,6 @@ KanaType.prototype.supressEvent = function(e){
 }
 
 //Character Tables--------------------------------------------------------
-/**
-* Function to create the kana conversion tables.
-* Kana are maintained in this table as their specific charCode, because 
-*  some text editors had trouble with them and would either corrupt the 
-*  whole file on opening, or corrupt this table.
-*/
 KanaType.prototype.charTables_useUTF = function(){
 	var t = this;
 	t.romajiTable = new Array(
@@ -481,12 +433,12 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("ge",12370,12466), 
 		new Array("go",12372,12468), 
 		new Array("sa",12373,12469), 
-		new Array("si",12375,12471), 
+		new Array("shi",12375,12471), 
 		new Array("su",12377,12473), 
 		new Array("se",12379,12475), 
 		new Array("so",12381,12477), 
 		new Array("za",12374,12470), 
-		new Array("zi",12376,12472), 
+		new Array("ji",12376,12472), 
 		new Array("zu",12378,12474), 
 		new Array("ze",12380,12476), 
 		new Array("zo",12382,12478), 
@@ -507,7 +459,7 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("no",12398,12494), 
 		new Array("ha",12399,12495), 
 		new Array("hi",12402,12498), 
-		new Array("hu",12405,12501), 
+		new Array("fu",12405,12501), 
 		new Array("he",12408,12504), 
 		new Array("ho",12411,12507), 
 		new Array("ba",12400,12496), 
@@ -552,9 +504,7 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("tsu",12387,12483)
 	);
 };
-/**
-* Function to transform number into character
-*/
+
 function intToKana(val){
 	return String.fromCharCode(val);
 }
