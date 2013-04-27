@@ -29,13 +29,15 @@ A callback function to run before the KanaType object begings watching keydown/k
 
 ####keyCatch
 default: 
-   ```function(event){
-        if(event.which==47){ // '/'
-            this.supressEvent(event);
-            this.switchKana();
-            return true;
-        }
-    };```
+```js
+function(event){
+    if(event.which==47){ // '/'
+        this.supressEvent(event);
+        this.switchKana();
+        return true;
+    }
+};
+```
 Type: Function(keyevent event)
 A callback function that is called after every keydown/keypress event but before the event is passed into the function for parsing events into kana.
 Returning true from this function will prevent the event from being passed into the parsing function.
