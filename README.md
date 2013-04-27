@@ -63,34 +63,35 @@ An example_site file should have been included with the download of KanaType
 It should contain a very basic sample site that shows the functionality of KanaType
 
 ```js
-    <script type="text/javascript" >
-    $("document").ready(function(){
- 
-    $("#inpt").focus();
- 
-    kt = new KanaType({
-       input:'#inpt',
-       keyCatch : function(event){
-          if(event.which==32){ //spacebar
-             return true;
-          }
-          if(event.which==13){ //enter
-             return true;
-          }
-          if(event.which==47){ // '/'
-             this.switchKana();
-             return true;
-          }
-       },
-       printOut : function(kanaArray, userInput, romajiArray){
-          var t = this;
-          output = kanaArray.join("")+userInput;
-          $(t.input).val(output);
-       }
-    });
- 
-    });
-    </script>```
+<script type="text/javascript" >
+$("document").ready(function(){
+
+$("#inpt").focus();
+
+kt = new KanaType({
+   input:'#inpt',
+   keyCatch : function(event){
+      if(event.which==32){ //spacebar
+         return true;
+      }
+      if(event.which==13){ //enter
+         return true;
+      }
+      if(event.which==47){ // '/'
+         this.switchKana();
+         return true;
+      }
+   },
+   printOut : function(kanaArray, userInput, romajiArray){
+      var t = this;
+      output = kanaArray.join("")+userInput;
+      $(t.input).val(output);
+   }
+});
+
+});
+</script>
+```
 
 ##License
 Copyright (c) 2013 Brian Crucitti - bcrucitti(at)gmail.com
