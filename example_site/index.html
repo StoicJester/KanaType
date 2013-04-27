@@ -5,11 +5,19 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta content="Brian Crucitti" name="author" />
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" ></script>
-	<script type="text/javascript" src="../KanaType.js" ></script>
+	<script type="text/javascript" src="assets/js/KanaType.js" ></script>
 </head>
 <body>
 <h1>KanaType Example</h1>
 <p>Enter text into the top input box to see what it is converted into.</p>
+<label>Input:</label>
+<input type="text" id="inpt" /><br/>
+<label>Returned Input:</label>
+<input type="text" id="rInpt" disabled /><br/>
+<label>Returned Kana:</label>
+<input type="text" id="rKana" disabled /><br/>
+<label>Returned Romaji</label>
+<input type="text" id="rRomaji" disabled /><br/>
 <script type="text/javascript" >
 $("document").ready(function(){
 
@@ -32,13 +40,18 @@ kt = new KanaType({
 	},
 	printOut : function(kanaArray, userInput, romajiArray){
 		var t = this;
-		output = kanaArray.join("")+userInput;
-		$(t.input).val(output);
+		output1 = kanaArray.join("")+userInput;
+		$(t.input).val(output1);
+		$("#rInpt").val(userInput);
+		output3 = kanaArray.join("");
+		$("#rKana").val(output3);
+		output4 = romajiArray.join("");
+		$("#rRomaji").val(output4);
+
 	}
 });
 
 });
 </script>
-<input type="text" id="inpt" />
 </body>
 </html>
