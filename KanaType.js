@@ -408,7 +408,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[70][kana]));
 		t.kanaArray.push(hold);
 		
 		t.deleteRecord.pop();
@@ -425,7 +425,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[70][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
