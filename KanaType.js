@@ -198,8 +198,8 @@ KanaType.prototype.checkSpecialInput = function (inp){
 		case "hu":
 			input = "fu";
 			break;
-		case "ji":
-			input = "zi";
+		case "zi":
+			input = "ji";
 			break;
 		case "ja":
 			input = "jya";
@@ -486,7 +486,7 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("se",12379,12475), 
 		new Array("so",12381,12477), 
 		new Array("za",12374,12470), 
-		new Array("zi",12376,12472), 
+		new Array("ji",12376,12472), 
 		new Array("zu",12378,12474), 
 		new Array("ze",12380,12476), 
 		new Array("zo",12382,12478), 
