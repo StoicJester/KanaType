@@ -408,7 +408,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[70][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[74][kana]));
 		t.kanaArray.push(hold);
 		
 		t.deleteRecord.pop();
@@ -425,7 +425,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[70][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[74][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
@@ -530,10 +530,14 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("yu",12422,12518), 
 		new Array("ye",12423,12519), 
 		new Array("yo",12424,12520), 
-		new Array("ra",12425,12521), 
-		new Array("ru",12427,12523), 
+		new Array("ra",12425,12521),
+		new Array("ri",12426,12522), 
+		new Array("ru",12427,12523),
+		new Array("re",12428,12524), 
 		new Array("ro",12429,12525), 
 		new Array("wa",12431,12527), 
+		new Array("wi",12432,12528), 
+		new Array("we",12433,12529), 
 		new Array("wo",12434,12530), 
 		new Array("nn",12435,12531), 
 		new Array("-",12541,12540),
