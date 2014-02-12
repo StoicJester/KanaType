@@ -35,7 +35,7 @@ var KanaType = function(objSettings){
 	
 	this.patternAccept = /([a-z]|[A-Z]|[-])/;
 	this.patternVowel = /[aeiou]/i;
-	this.patternSpecial = /nn/i;
+	this.patternSpecial = /nn|[-]/i;
 	
 	this.isHiragana = true;
 	
@@ -198,8 +198,8 @@ KanaType.prototype.checkSpecialInput = function (inp){
 		case "hu":
 			input = "fu";
 			break;
-		case "ji":
-			input = "zi";
+		case "zi":
+			input = "ji";
 			break;
 		case "ja":
 			input = "jya";
@@ -408,7 +408,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		t.romajiArray.push(hold);
 		
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[74][kana]));
 		t.kanaArray.push(hold);
 		
 		t.deleteRecord.pop();
@@ -425,7 +425,7 @@ KanaType.prototype.checkKanaNPlus = function(input){
 		
 		hold2 = t.kanaArray.pop();
 		hold = t.kanaArray.pop();
-		t.kanaArray.push(intToKana(t.romajiTable[49][kana]));
+		t.kanaArray.push(intToKana(t.romajiTable[74][kana]));
 		t.kanaArray.push(hold);
 		t.kanaArray.push(hold2);
 		
@@ -481,12 +481,12 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("ge",12370,12466), 
 		new Array("go",12372,12468), 
 		new Array("sa",12373,12469), 
-		new Array("si",12375,12471), 
+		new Array("shi",12375,12471), 
 		new Array("su",12377,12473), 
 		new Array("se",12379,12475), 
 		new Array("so",12381,12477), 
 		new Array("za",12374,12470), 
-		new Array("zi",12376,12472), 
+		new Array("ji",12376,12472), 
 		new Array("zu",12378,12474), 
 		new Array("ze",12380,12476), 
 		new Array("zo",12382,12478), 
@@ -507,7 +507,7 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("no",12398,12494), 
 		new Array("ha",12399,12495), 
 		new Array("hi",12402,12498), 
-		new Array("hu",12405,12501), 
+		new Array("fu",12405,12501), 
 		new Array("he",12408,12504), 
 		new Array("ho",12411,12507), 
 		new Array("ba",12400,12496), 
@@ -530,10 +530,14 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("yu",12422,12518), 
 		new Array("ye",12423,12519), 
 		new Array("yo",12424,12520), 
-		new Array("ra",12425,12521), 
-		new Array("ru",12427,12523), 
+		new Array("ra",12425,12521),
+		new Array("ri",12426,12522), 
+		new Array("ru",12427,12523),
+		new Array("re",12428,12524), 
 		new Array("ro",12429,12525), 
 		new Array("wa",12431,12527), 
+		new Array("wi",12432,12528), 
+		new Array("we",12433,12529), 
 		new Array("wo",12434,12530), 
 		new Array("nn",12435,12531), 
 		new Array("-",12541,12540),
