@@ -507,7 +507,7 @@ KanaType.prototype.charTables_useUTF = function(){
 		new Array("no",12398,12494), 
 		new Array("ha",12399,12495), 
 		new Array("hi",12402,12498), 
-		new Array("hu",12405,12501), 
+		new Array("fu",12405,12501), 
 		new Array("he",12408,12504), 
 		new Array("ho",12411,12507), 
 		new Array("ba",12400,12496), 
