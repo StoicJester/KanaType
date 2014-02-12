@@ -35,7 +35,7 @@ var KanaType = function(objSettings){
 	
 	this.patternAccept = /([a-z]|[A-Z]|[-])/;
 	this.patternVowel = /[aeiou]/i;
-	this.patternSpecial = /nn/i;
+	this.patternSpecial = /nn|[-]/i;
 	
 	this.isHiragana = true;
 	
